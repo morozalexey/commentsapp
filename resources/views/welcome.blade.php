@@ -8,16 +8,16 @@
         <div class="card-header"><h3>Комментарии</h3></div>
 
         <div class="card-body">     
-                                       
+            @foreach($comments as $comment)                          
             <div class="media">             
               <img src="" class="mr-3" alt="..." width="64" height="64">      
               <div class="media-body">
-                <h5 class="mt-0"></h5>                                
-                <span><small></small></span>                              
-                <p></p>                               
+                <h5 class="mt-0">{{$comment->name}}</h5>                                
+                <span><small>{{$comment->dt_add}}</small></span>                              
+                <p>{{$comment->text}}</p>                               
               </div>
             </div>  
-            
+            @endforeach
         
         </div>
     </div>                   
