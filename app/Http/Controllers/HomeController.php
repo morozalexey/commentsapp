@@ -27,9 +27,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {   
-        $avatar = User::find(1)->avatar;
-        $user = Auth::user();
-        $comments = Comment::latest()->where('hide', 0)->get();               
+        
+        //$avatar = User::find(1)->avatar;
+        $user_id = Auth::user()->id;        
+        $user = Auth::user()->first();
+        
+        $avatar = Auth::user()->avatar;
+         
+        $comments = Comment::latest()->where('hide', 0)->get();  
+                     
         return view('home', ['comments' => $comments, 'user' => $user]);
     }
 
@@ -45,10 +51,13 @@ class HomeController extends Controller
         return view('admin', ['comments' => $comments]);
     }
 
-    public function store(Request $request){        
-        /*
-        $avatar = Auth::user()->avatar;
-
+    public function store(Request $request){
+        //dd($request->all());
+        $this->validate($request, [
+            'text' => 'required'
+        ]);
+        
+        /*    
         $comment = new Comment();
 
         $comment->dt_add = now();
@@ -60,8 +69,10 @@ class HomeController extends Controller
 
         return redirect('/home');
         */
+        /*
         $comment = Comment::first();  
         dd(($comment->user)->avatar);
+        */
 
     }
 
