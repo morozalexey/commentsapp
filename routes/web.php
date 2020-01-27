@@ -11,8 +11,19 @@
 |
 */
 
+
 Route::get('/', 'HomeController@index');
+
+Route::post('/store', 'HomeController@store');
+
+Route::get('/admin', 'HomeController@admin');
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/faker', function (){
+	factory(App\Comment::class, 5)->create();
+	return redirect ('/home');
+});
