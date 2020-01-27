@@ -56,10 +56,6 @@ class HomeController extends Controller
         $comment->name = Auth::user()->name;
         $comment->user_id = Auth::user()->id;
 
-
-
-        dd($avatar);
-
         $comment->save();
 
         return redirect('/home');
