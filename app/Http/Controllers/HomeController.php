@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 use App\Comment;
 use App\User;
@@ -26,38 +27,35 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-    {   
+    {           
+        $comments = Comment::latest()->where('hide', 0)->paginate(5);
         
-        //$avatar = User::find(1)->avatar;
-        //$user_id = Auth::user()->id;        
-        //$user = Auth::user()->first();
-        
-        //$avatar = Auth::user()->avatar;
-         
-        $comments = Comment::latest()->where('hide', 0)->get();  
-                     
-        return view('home', ['comments' => $comments]);
+        //не работает
+        $user_id = $comments->pluck('user_id');
+        $avatar = User::where('id', $user_id)->get('avatar');  
+               
+                      
+        return view('comments.home', ['comments' => $comments, 'avatar' => $avatar]);
     }
 
     public function faker()
     {
         factory(App\Comment::class, 5)->create();
-        return view('home');
+        return view('comments.home');
     } 
 
     public function admin(Request $request)
     {   
-        $comments = Comment::all();
-        return view('admin', ['comments' => $comments]);
+        $comments = Comment::latest()->get();
+        return view('comments.admin', ['comments' => $comments]);
     }
 
-    public function store(Request $request){
-        //dd($request->all());
+    public function create(Request $request){
+        
         $this->validate($request, [
             'text' => 'required'
-        ]);
-        
-        /*    
+        ]);        
+           
         $comment = new Comment();
 
         $comment->dt_add = now();
@@ -66,20 +64,36 @@ class HomeController extends Controller
         $comment->user_id = Auth::user()->id;
 
         $comment->save();
-
-        return redirect('/home');
-        */
-        /*
-        $comment = Comment::first();  
-        dd(($comment->user)->avatar);
-        */
-
+            
+        return redirect()->route('comments.index');
     }
 
     public function profile()
     {
         $user = Auth::user();
-        return view('profile', ['user' => $user]);
+        return view('comments.profile', ['user' => $user]);
+    }
+
+    public function hide(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+        $comment->hide = 1;
+        $comment->save();
+        return redirect()->route('comments.admin');
+    }
+
+    public function show(Request $request, $id)
+    {
+        $comment = Comment::find($id);
+        $comment->hide = 0;
+        $comment->save();
+        return redirect()->route('comments.admin');
+    }
+
+     public function destroy($id)
+    {
+        Comment::find($id)->delete();
+        return redirect()->route('comments.admin');
     }
 
 

@@ -34,17 +34,16 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     @if (Auth::user())
-                        @if (Auth::user()->role == "admin")
-                                                
+                        @if (Auth::user()->role == "admin")                                                
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
+                            <a class="nav-link" href="{{ route('comments.profile') }}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin">Admin</a>
+                            <a class="nav-link" href="{{ route('comments.admin') }}">Admin</a>
                         </li>
                         @else
                         <li class="nav-item">
-                            <a class="nav-link" href="/profile">Profile</a>
+                            <a class="nav-link" href="{{ route('comments.profile') }}">Profile</a>
                         </li> 
                         @endif
                     @endif

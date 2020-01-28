@@ -12,20 +12,23 @@
 */
 
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('comments.index');
 
-Route::post('/store', 'HomeController@store');
+Route::post('comments/create', 'HomeController@create')->name('comments.create');
 
-Route::get('/admin', 'HomeController@admin');
+Route::get('comments/admin', 'HomeController@admin')->name('comments.admin');
 
-Route::get('/profile', 'HomeController@profile');
+Route::get('comments/profile', 'HomeController@profile')->name('comments.profile');
+
+Route::put('comments/{id}/hide', 'HomeController@hide')->name('comments.hide');
+
+Route::put('comments/{id}/show', 'HomeController@show')->name('comments.show');
+
+Route::put('comments/{id}/destroy', 'HomeController@destroy')->name('comments.destroy');
 
 
 Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/faker', function (){
-	factory(App\Comment::class, 5)->create();
-	return redirect ('/home');
-});
+Route::get('/faker', 'HomeController@faker')->name('faker');

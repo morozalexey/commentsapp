@@ -18,7 +18,7 @@ use Faker\Generator as Faker;
 */
 
 
-/*
+
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -28,14 +28,14 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
-*/
+
 
 $factory->define(Comment::class, function (Faker $faker) {
     return [
         'dt_add' => $faker->date(),
         'name' => $faker->name,
         'text' => $faker->text(),
-        'user_id' => 1,
+        'user_id' => factory(App\User::class)->create()->id,
         'hide' => 0,
     ];
 });

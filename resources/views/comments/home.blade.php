@@ -2,6 +2,8 @@
 
 @section('content')
 
+@include('comments.errors')
+
 <div class="col-md-12">
                      
      <div class="card">
@@ -10,7 +12,7 @@
         <div class="card-body">     
             @foreach($comments as $comment)                          
             <div class="media">             
-              <img src="" class="mr-3" alt="..." width="64" height="64">      
+              <img src="{{ $avatar }}" class="mr-3" alt="..." width="64" height="64">      
               <div class="media-body">
                 <h5 class="mt-0">{{$comment->name}}</h5>                                
                 <span><small>{{$comment->dt_add}}</small></span>                              
@@ -21,7 +23,7 @@
         
         </div>
     </div>                   
-
+{{$comments->links()}}
 </div>
               
 <div class="col-md-12" >  
@@ -29,7 +31,7 @@
     <div class="card">
        
         <div class="card-header"><h3>Оставить комментарий</h3></div>
-            
+           
         <div class="card-body">
         @guest 
         @if (Route::has('register')) 
@@ -46,8 +48,10 @@
                 <div class="btn btn-success">Отправить</div>                                
             </form>
         @endif
-        @else      
-            <form action="/store" method="post">  
+        @else  
+              
+            <form action="{{ route('comments.create') }}" method="post">  
+
             {{csrf_field()}}                             
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Сообщение</label>
@@ -55,7 +59,7 @@
                 </div>
                 <button type="submit" class="btn btn-success">Отправить</button>                                
             </form>
-                 
+
         </div>
         @endguest
     </div>
