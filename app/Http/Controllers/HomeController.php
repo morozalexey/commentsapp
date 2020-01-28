@@ -29,14 +29,14 @@ class HomeController extends Controller
     {   
         
         //$avatar = User::find(1)->avatar;
-        $user_id = Auth::user()->id;        
-        $user = Auth::user()->first();
+        //$user_id = Auth::user()->id;        
+        //$user = Auth::user()->first();
         
-        $avatar = Auth::user()->avatar;
+        //$avatar = Auth::user()->avatar;
          
         $comments = Comment::latest()->where('hide', 0)->get();  
                      
-        return view('home', ['comments' => $comments, 'user' => $user]);
+        return view('home', ['comments' => $comments]);
     }
 
     public function faker()
@@ -74,6 +74,12 @@ class HomeController extends Controller
         dd(($comment->user)->avatar);
         */
 
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('profile', ['user' => $user]);
     }
 
 

@@ -18,10 +18,12 @@ Route::post('/store', 'HomeController@store');
 
 Route::get('/admin', 'HomeController@admin');
 
+Route::get('/profile', 'HomeController@profile');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/faker', function (){
 	factory(App\Comment::class, 5)->create();
