@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 use App\Comment;
 use App\User;
@@ -27,15 +28,14 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-    {           
-        $comments = Comment::latest()->where('hide', 0)->paginate(5);
-        
-        //не работает
-        $user_id = $comments->pluck('user_id');
-        $avatar = User::where('id', $user_id)->get('avatar');  
-               
-                      
-        return view('comments.home', ['comments' => $comments, 'avatar' => $avatar]);
+    {            
+        $comments = DB::table('comments')
+        ->leftJoin('users', 'users.id', '=', 'comments.user_id')
+        ->where('hide', 0)
+        ->orderBy('dt_add', 'desc')
+        ->paginate(5);         
+                    
+        return view('comments.home', ['comments' => $comments]);
     }
 
     public function faker()

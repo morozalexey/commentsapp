@@ -12,7 +12,7 @@
         <div class="card-body">     
             @foreach($comments as $comment)                          
             <div class="media">             
-              <img src="{{ $avatar }}" class="mr-3" alt="..." width="64" height="64">      
+              <img src="{{ $comment->avatar }}" class="mr-3" alt="..." width="64" height="64">      
               <div class="media-body">
                 <h5 class="mt-0">{{$comment->name}}</h5>                                
                 <span><small>{{$comment->dt_add}}</small></span>                              
