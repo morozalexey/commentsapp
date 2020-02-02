@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Comment;
 use App\User;
@@ -96,6 +97,40 @@ class HomeController extends Controller
         return redirect()->route('comments.admin');
     }
 
+    public function changeavatar(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $currentavatar = DB::table('users')->select('*')->where('id', $user_id)->first();
+        if ($currentavatar != null) {
+            Storage::delete($currentavatar->avatar);
+        }
 
+        $avatar = $request->file('avatar');
+        $filename = $request->avatar->store('uploads');
+        DB::table('users')->where('id', $user_id)->update(
+            ['avatar' => $filename]
+        );
+        return redirect()->route('comments.profile');        
+    }
+
+    public function changename(Request $request)
+    {   
+        $user_id = Auth::user()->id;
+        $name = $request->input('name');        
+        DB::table('users')->where('id', $user_id)->update(
+            ['name' => $name]
+        );
+        return redirect()->route('comments.profile');  
+    }
+
+    public function changeemail(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $email = $request->input('email');        
+        DB::table('users')->where('id', $user_id)->update(
+            ['email' => $email]
+        );
+        return redirect()->route('comments.profile');
+    }
 }
 

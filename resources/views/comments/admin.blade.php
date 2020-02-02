@@ -8,8 +8,7 @@
         <div class="card-body">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Аватар</th>
+                    <tr>                        
                         <th>Имя</th>
                         <th>Дата</th>
                         <th>Комментарий</th>
@@ -19,10 +18,7 @@
 
                 <tbody>
 				@foreach($comments as $comment)  
-                    <tr>										
-                        <td>
-                            <img src="" alt="" class="img-fluid" width="64" height="64">
-                        </td>
+                    <tr>
                         <td>{{$comment->name}}</td>
                         <td>{{$comment->dt_add}}</td>
                         <td>{{$comment->text}}</td>
